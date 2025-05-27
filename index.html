@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Permutation Visualizer</title>
+    <!-- Load Plotly for charting -->
+    <script src="https://cdn.plot.ly/plotly-3.0.1.min.js"></script>
+    <!-- Link to CSS -->
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <h1>Permutation Visualizer</h1>
+  
+    <div>
+        <input id="permInput" placeholder="Enter permutation (comma-separated)" />
+        <button id="plotBtn">Plot</button>
+        <button id="toggleOptimizerMode">Optimizer Mode: OFF</button>
+        <button id="applyOptimizer" disabled>Apply Optimizer</button>
+        <button id="copyPermBtn">Copy Permutation</button>
+    </div>
+  
+    <div id="chart"></div>
+  
+    <p>2413 Count: <span id="countOutput">0</span></p>
+    <p>Type 1: <span id="type1Output">0</span></p>
+    <p>Type 2: <span id="type2Output">0</span></p>
+    <p>Type 3: <span id="type3Output">0</span></p>
+
+  
+    <!-- Link to our JavaScript -->
+    <script src="main.js"></script>
+  </body>
+</html>
