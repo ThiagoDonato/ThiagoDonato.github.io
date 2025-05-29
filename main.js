@@ -1,3 +1,7 @@
+import { n3Fitness }              from './fitness.js';
+import { count2413WithSetType }   from './countingTypes.js';
+import { applyOptimizer }         from './optimizer.js';
+
 /******************** Global Variables ********************/
 let optimizerMode = false;     // Are we in optimizer mode or not
 let swapSelection = [];        // Tracks up to 2 points for swapping
@@ -164,24 +168,11 @@ function swapPoints(i1, i2) {
 /******************** OPTIMIZE SUBSEQUENCE ********************/
 function optimizeSubsequence() {
   const perm = window.currentPermutation;
-  selectedIndices.sort((a,b) => a-b);
+  selectedIndices.sort((a, b) => a - b);
   const subseq = selectedIndices.map(i => perm[i]);
 
-  fetch("/optimize_subsequence", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ subseq })
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.error) {
-        alert(data.error);
-        selectedIndices = [];
-        updatePlot(perm);
-        return;
-      }
-
-      const optimizedSubseq = data.optimized;
+  applyOptimizer(subseq)
+    .then(optimizedSubseq => {
       // Replace the selected indices with the optimized arrangement
       selectedIndices.forEach((idx, j) => {
         perm[idx] = optimizedSubseq[j];
@@ -191,7 +182,12 @@ function optimizeSubsequence() {
       document.getElementById("applyOptimizer").disabled = true;
       updatePlot(perm);
     })
-    .catch(err => console.error("Error optimizing subsequence:", err));
+    .catch(err => {
+      alert(err.message);
+      selectedIndices = [];
+      updatePlot(perm);
+      console.error("Error optimizing subsequence:", err);
+    });
 }
 
 /******************** RESET SELECTIONS ********************/
@@ -203,29 +199,17 @@ function resetSelections() {
 
 /******************** UPDATE FITNESS COUNT ********************/
 function updateFitnessCount(perm) {
-  fetch("/count_2413", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ permutation: perm })
-  })
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("countOutput").innerText = data.count;
-    })
-    .catch(err => console.error("Error calling /count_2413:", err));
-  
-  // Second call: gets the detailed type counts
-  fetch("/count_2413_types", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ permutation: perm })
-  })
-    .then(res => res.json())
-    .then(data => {
-    document.getElementById("type1Output").innerText = data.type1;
-    document.getElementById("type2Output").innerText = data.type2;
-    document.getElementById("type3Output").innerText = data.type3;
-    })
-    .catch(err => console.error("Error calling /count_2413_types:", err));
+  try {
+    // total 2413 occurrences
+    const total = n3Fitness(perm);
+    document.getElementById("countOutput").innerText = total;
 
+    // subtype breakdown
+    const [type1, type2, type3] = count2413WithSetType(perm);
+    document.getElementById("type1Output").innerText = type1;
+    document.getElementById("type2Output").innerText = type2;
+    document.getElementById("type3Output").innerText = type3;
+  } catch (err) {
+    console.error("Error computing 2413 fitness:", err);
   }
+}
