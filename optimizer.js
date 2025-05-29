@@ -1,7 +1,7 @@
-// optimizer.js
+// optimizer.js  (replace the old applyOptimizer with this one)
 let tablePromise;
 
-/** Lazy-loads optimizers.json exactly once. */
+// one-time fetch of optimizers.json
 async function loadTable() {
   if (!tablePromise) {
     tablePromise = fetch('optimizers.json').then(r => r.json());
@@ -10,9 +10,10 @@ async function loadTable() {
 }
 
 /**
- * Re-orders a selected subsequence using the pre-computed pattern
- * from optimizers.json. Mirrors apply_optimizer in Python. :contentReference[oaicite:3]{index=3}
- * @returns {Promise<number[]>} the optimized subsequence
+ * Apply the pre-computed pattern for a given subsequence length.
+ * Behaviour now mirrors the Python apply_optimizer step-for-step.
+ * @param {number[]} subseq  The values user selected in the permutation
+ * @returns {Promise<number[]>}  Re-ordered subsequence
  */
 export async function applyOptimizer(subseq) {
   const map = await loadTable();
@@ -22,18 +23,12 @@ export async function applyOptimizer(subseq) {
     throw new Error('No optimizer available for this length');
   }
 
-  // rank-map & un-rank map
-  const sorted = [...subseq].sort((a,b) => a - b);
-  const rank   = new Map(sorted.map((v,i) => [v, i]));
-  const unrank = sorted;                     // index -> original value
+  // 1) Ascending sort of the chosen values
+  const sortedVals = [...subseq].sort((a, b) => a - b);
 
-  // convert to ranks
-  const normalized = subseq.map(v => rank.get(v));
+  // 2) Apply the zero-based permutation pattern directly to the *sorted* list
+  const pattern = map[key];           // e.g. [1, 3, 0, 2]
+  const newSubseq = pattern.map(i => sortedVals[i]);
 
-  // reorder using pattern
-  const pattern = map[key];      // zero-based permutation
-  const reorderedRanks = pattern.map(i => normalized[i]); // step 4 (logical)
-  const reordered      = reorderedRanks.map(i => unrank[i]); // step 6
-
-  return reordered;
+  return newSubseq;                   // ready to splice back into perm
 }
