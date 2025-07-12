@@ -11,6 +11,25 @@ h1 {
     color: #333;
 }
 
+.info-section {
+    text-align: left;
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+.info-section h3 {
+    font-family: Courier, monospace;
+    margin-top: 0;
+}
+
+.info-section ul, .info-section ol {
+    padding-left: 20px;
+}
+
 input#permInput {
     width: 300px;
     padding: 8px;

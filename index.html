@@ -11,8 +11,27 @@
 <body>
     <h1>Permutation Visualizer V3</h1>
   
+    <div class="info-section">
+        <h3>What is this?</h3>
+        <p>This is an interactive tool for exploring permutations and their properties, specifically focusing on "2413" patterns. A 2413 pattern is a subsequence of four elements where their positions are in increasing order, but their values follow the pattern: the third element is smallest, followed by the first, then the fourth, and finally the second is largest.</p>
+        <p>The graph visualizes your permutation: the x-axis shows the position (index) and the y-axis shows the value at that position.</p>
+        
+        <h3>How to use it</h3>
+        <p>You can interact with the permutation in two ways:</p>
+        <ul>
+            <li><b>Manual Swapping:</b> Simply click on any two points in the graph. They will swap places, and the tool will instantly update the count of 2413 patterns.</li>
+            <li><b>Optimizer Mode:</b>
+                <ol>
+                    <li>Toggle "Optimizer Mode" on. The button will show "ON".</li>
+                    <li>Click on any number of points you want to re-order. They will turn green.</li>
+                    <li>Click "Apply Optimizer". The tool will arrange the selected values into a pre-computed optimal order that aims to maximize the number of 2413 patterns they can form.</li>
+                </ol>
+            </li>
+        </ul>
+    </div>
+
     <div>
-        <input id="permInput" placeholder="Enter permutation (comma-separated)" />
+        <input id="permInput" value="2,7,0,5,1,6,3,4" placeholder="Enter permutation (comma-separated)" />
         <button id="plotBtn">Plot</button>
         <button id="toggleOptimizerMode">Optimizer Mode: OFF</button>
         <button id="applyOptimizer" disabled>Apply Optimizer</button>

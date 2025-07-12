@@ -213,3 +213,11 @@ function updateFitnessCount(perm) {
     console.error("Error computing 2413 fitness:", err);
   }
 }
+
+/******************** AUTO-PLOT ON LOAD ********************/
+const permInput = document.getElementById("permInput");
+if (permInput.value) {
+    const perm = permInput.value.split(",").map(Number).filter(num => !isNaN(num));
+    window.currentPermutation = perm;
+    initializePlot(perm);
+}
