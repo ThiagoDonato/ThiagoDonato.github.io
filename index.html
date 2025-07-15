@@ -14,9 +14,9 @@
     <details class="info-section">
         <summary>What is this? (Click to expand)</summary>
         <div>
-            <p>This tool lets you explore permutations visually. Each dot shows a number in the permutation—x-axis is the value, y-axis is the position.</p>
+            <p>This tool lets you explore permutations visually. For a given permutation π of length n, the x-axis represents the index of the permutation (0 to n-1), and the y-axis represents the value at that index (π[index]).</p>
             <p>It counts all "2413" patterns: sets of four indices i &lt; j &lt; k &lt; l such that π[i] &lt; π[k] &lt; π[l] &lt; π[j], matching the relative order of (2, 4, 1, 3).</p>
-            <p>For example, in the permutation <b>2,4,5,1,3</b>, the subsequence <b>(2, 4, 1, 3)</b> forms a "2413" pattern. The subsequence <b>(2, 5, 1, 3)</b> is another one. This tool found 2 such patterns.</p>
+            <p>For example, in the permutation <b>2,4,5,1,3</b>, the subsequence <b>(2, 4, 1, 3)</b> forms a "2413" pattern. The subsequence <b>(2, 5, 1, 3)</b> is another one. This permutation has 2 "2413" patterns.</p>
             
             <h3>How to use it</h3>
             <ul>
@@ -26,6 +26,7 @@
                         <li>Toggle "Optimizer Mode" on. The button will show "ON".</li>
                         <li>Click on any number of points you want to re-order. They will turn green.</li>
                         <li>Click "Apply Optimizer". The tool will arrange the selected values into a pre-computed optimal order that aims to maximize the number of 2413 patterns they can form.</li>
+                        <li>Try to find out the optimal permutation for a length 8 permutation. To get the solution simply graph (1,2,3...,8) and apply the optimizer</li>
                     </ol>
                 </li>
             </ul>
